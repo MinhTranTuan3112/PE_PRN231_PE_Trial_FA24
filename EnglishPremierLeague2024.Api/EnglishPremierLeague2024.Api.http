@@ -1,0 +1,6 @@
+@EnglishPremierLeague2024.Api_HostAddress = http://localhost:5127
+
+GET {{EnglishPremierLeague2024.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
