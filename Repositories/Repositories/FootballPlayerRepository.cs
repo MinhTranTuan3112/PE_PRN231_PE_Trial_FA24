@@ -21,6 +21,7 @@ namespace Repositories.Repositories
         public async Task<FootballPlayer?> GetFootballPlayerById(string id)
         {
             return await _context.FootballPlayers.AsNoTracking()
+                                        .Include(p => p.FootballClub)
                                         .SingleOrDefaultAsync(f => f.FootballPlayerId == id);
         }
 

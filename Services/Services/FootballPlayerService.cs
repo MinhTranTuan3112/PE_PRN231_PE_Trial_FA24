@@ -32,7 +32,7 @@ namespace Services.Services
 
             if (!await _footballClubRepository.AnyAsync(f => f.FootballClubId == request.FootballClubId))
             {
-                throw new BadRequestException("Club id does not exist");
+                throw new NotFoundException("Club id does not exist");
             }
 
             var player = new FootballPlayer
@@ -54,6 +54,18 @@ namespace Services.Services
 
         }
 
+        public async Task DeletePlayer(string id)
+        {
+            if (!await _footballPlayerRepository.AnyAsync(f => f.FootballClubId == id))
+            {
+                throw new NotFoundException("Player not found");
+            }
+
+            await _footballPlayerRepository.ExecuteDeleteAsync(f => f.FootballClubId == id);
+
+            await _footballPlayerRepository.SaveChangesAsync();
+        }
+
         public async Task<FootballPlayer> GetFootballPlayerById(string id)
         {
             var player = await _footballPlayerRepository.GetFootballPlayerById(id);
@@ -73,9 +85,21 @@ namespace Services.Services
             return footballPlayers;
         }
 
-        public async Task UpdateFootballPlayer(UpdateFootballPlayerRequest request)
+        public async Task UpdateFootballPlayer(FootballPlayer player)
         {
-            
+            if (!await _footballPlayerRepository.AnyAsync(p => p.FootballPlayerId == player.FootballPlayerId))
+            {
+                throw new NotFoundException("Football player not found");
+            }
+
+            if (!await _footballClubRepository.AnyAsync(f => f.FootballClubId == player.FootballClubId))
+            {
+                throw new NotFoundException("Football club not found");
+            }
+
+            await _footballPlayerRepository.UpdateAsync(player);
+
+            await _footballPlayerRepository.SaveChangesAsync();
         }
     }
 }

@@ -16,6 +16,8 @@ namespace Services.Interfaces
 
         Task<FootballPlayer> CreateFootballPlayer(CreateFootballPlayerRequest request);
 
-        Task UpdateFootballPlayer(UpdateFootballPlayerRequest request);
+        Task UpdateFootballPlayer(FootballPlayer player);
+
+        Task DeletePlayer(string id);
     }
 }

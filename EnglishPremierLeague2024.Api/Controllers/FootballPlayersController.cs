@@ -36,9 +36,17 @@ namespace EnglishPremierLeague2024.Api.Controllers
             return Created(nameof(CreateFootballPlayer), await _footballPlayerService.CreateFootballPlayer(request));
         }
 
-        [HttpPut("{id}"), Authorize(Roles = "1")]
-        public async Task<ActionResult> UpdateFootballPlayer([FromRoute] string id,  [FromBody] UpdateFootballPlayerRequest request)
+        [HttpPut, Authorize(Roles = "1")]
+        public async Task<ActionResult> UpdateFootballPlayer([FromBody] FootballPlayer request)
         {
+            await _footballPlayerService.UpdateFootballPlayer(request);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}"), Authorize(Roles = "1")]
+        public async Task<ActionResult> DeleteFootballPlayer([FromRoute] string id)
+        {
+            await _footballPlayerService.DeletePlayer(id);
             return NoContent();
         }
     }

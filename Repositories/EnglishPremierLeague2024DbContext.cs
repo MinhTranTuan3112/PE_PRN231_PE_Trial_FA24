@@ -23,19 +23,6 @@ public partial class EnglishPremierLeague2024DbContext : DbContext
 
     public virtual DbSet<PremierLeagueAccount> PremierLeagueAccounts { get; set; }
 
-
-    //private string GetConnectionString()
-    //{
-    //    var configuration = new ConfigurationBuilder()
-    //                            .SetBasePath(Directory.GetCurrentDirectory())
-    //                            .AddJsonFile("appsettings.json", true, true)
-    //                            .Build();
-    //    return configuration.GetConnectionString("DefaultConnection") ?? "";
-    //}
-
-
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //    => optionsBuilder.UseSqlServer(GetConnectionString());
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
