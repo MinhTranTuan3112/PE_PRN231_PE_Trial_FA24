@@ -1,4 +1,5 @@
-﻿using Repositories.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Repositories.Entities;
 using Repositories.Interfaces;
 using Services.Interfaces;
 using Shared.Exceptions;
@@ -56,12 +57,12 @@ namespace Services.Services
 
         public async Task DeletePlayer(string id)
         {
-            if (!await _footballPlayerRepository.AnyAsync(f => f.FootballClubId == id))
+            if (!await _footballPlayerRepository.AnyAsync(f => f.FootballPlayerId == id))
             {
                 throw new NotFoundException("Player not found");
             }
 
-            await _footballPlayerRepository.ExecuteDeleteAsync(f => f.FootballClubId == id);
+            await _footballPlayerRepository.ExecuteDeleteAsync(f => f.FootballPlayerId == id);
 
             await _footballPlayerRepository.SaveChangesAsync();
         }
@@ -83,6 +84,11 @@ namespace Services.Services
             var footballPlayers = await _footballPlayerRepository.GetFootballPlayers(achievements, nominations);
 
             return footballPlayers;
+        }
+
+        public IQueryable<FootballPlayer> GetFootballPlayersQuery(string? achievements = default, string? nominations = default)
+        {
+            return _footballPlayerRepository.Entities.Include(f => f.FootballClub).AsQueryable();
         }
 
         public async Task UpdateFootballPlayer(FootballPlayer player)

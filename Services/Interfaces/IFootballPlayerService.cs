@@ -19,5 +19,7 @@ namespace Services.Interfaces
         Task UpdateFootballPlayer(FootballPlayer player);
 
         Task DeletePlayer(string id);
+
+        IQueryable<FootballPlayer> GetFootballPlayersQuery(string? achievements = default, string? nominations = default);
     }
 }
